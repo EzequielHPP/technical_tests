@@ -7,7 +7,7 @@ class Test
     private $callback;
 
 
-    public function assertEquals($match, $output, $failMessage = 'Failed')
+    public function assertEquals($match, $output, $failMessage = 'Failed //result//')
     {
         echo "Testing: " . json_encode($match) . " -> ";
         if ($match === $output) {
