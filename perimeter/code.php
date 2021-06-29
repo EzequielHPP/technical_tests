@@ -22,6 +22,6 @@ function calculate($n, &$cache){
 
 $test = (new \App\Test());
 
-$test->assertEquals(80, perimeter(5), 'Failed: //result//');
-$test->assertEquals(216, perimeter(7), 'Failed: //result//');
-$test->assertEquals(3226062132197568, perimeter(70), 'Failed: //result//');
+$test->assertEquals(80, perimeter(5), 'Failed: ');
+$test->assertEquals(216, perimeter(7), 'Failed: ');
+$test->assertEquals(3226062132197568, perimeter(70), 'Failed: ');

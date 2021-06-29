@@ -20,6 +20,6 @@ function secondsToTime(int $seconds): array
 
 $test = (new \App\Test());
 
-$test->assertEquals([0, 32, 18], race(720, 850, 70), 'FAILED //result//');
-$test->assertEquals([3, 21, 49], race(80, 91, 37), 'FAILED //result//');
-$test->assertEquals([2, 0, 0], race(80, 100, 40), 'FAILED //result//');
+$test->assertEquals([0, 32, 18], race(720, 850, 70), 'FAILED ');
+$test->assertEquals([3, 21, 49], race(80, 91, 37), 'FAILED ');
+$test->assertEquals([2, 0, 0], race(80, 100, 40), 'FAILED ');
