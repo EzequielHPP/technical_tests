@@ -13,7 +13,7 @@ class Test
         if ($match === $output) {
             echo "Passed\n";
         } else {
-            echo str_replace('//result//', $output, $failMessage) . "\n";
+            echo str_replace('//result//', json_encode($output), $failMessage) . "\n";
         }
     }
 }
