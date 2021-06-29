@@ -86,38 +86,48 @@ function horizontalCheck($board, $column, $piece)
     $firstColumn = ord('A');
     $lastColumn = ord('G');
 
-    // Check Horizontally
+    // highest point in column
     $index = count($board[$column]) - 1;
+
+    // get the ascii code (order) of the column
+    // and get the lowest column and highest column it can check (current index - + 3)
     $ascii = ord($column);
     $inARow = 0;
     $firstCheck = chr(($ascii - 3 < $firstColumn ? $firstColumn : $ascii - 3));
     $lastCheck = chr(($ascii + 3 > $lastColumn ? $lastColumn : $ascii + 3));
+
+    // Loop on the given range only
     foreach (range($firstCheck, $lastCheck) as $letter) {
         drawBoard($board, $letter, $index);
+        // Do we have the key and matches the player color?
         if (array_key_exists($index, $board[$letter]) && $board[$letter][$index] === $piece) {
             ++$inARow;
-        } elseif ($inARow > 0) {
+
+            // If it doesn't match the color, and we don't have a winning play, reset counter
+        } elseif ($inARow > 0 && $inARow < 4) {
             $inARow = 0;
         }
-        if ($inARow === 4) {
-            return true;
-        }
     }
-    return false;
+    return $inARow >= 4;
 }
 
 function verticalCheck($board, $column, $piece)
 {
+    // Get the highest index ofg column
     $index = count($board[$column]) - 1;
+
+    // if is lower than 3 means that we don't have enough pieces to win vertically
     if ($index < 3) {
         return false;
     }
+
+    // Move downwards on the column and check if we have a winning play
     $totalMatches = 0;
     for ($x = $index; $x >= 0; $x--) {
         drawBoard($board, $column, $x);
         if ($board[$column][$x] === $piece) {
-            $totalMatches++;
-        } else {
+            ++$totalMatches;
+        } elseif($totalMatches < 4){
             $totalMatches = 0;
         }
     }
@@ -129,7 +139,7 @@ function diagonalCheck($board, $column, $piece)
     $firstColumn = ord('A');
     $lastColumn = ord('G');
 
-    // Check Horizontally
+    // Same logic has horizontal, but the index varies according to the column
     $index = count($board[$column]) - 1;
     $ascii = ord($column);
     $inARow = 0;
@@ -137,7 +147,7 @@ function diagonalCheck($board, $column, $piece)
     $lastCheck = chr(($ascii + 3 > $lastColumn ? $lastColumn : $ascii + 3));
     foreach (range($firstCheck, $lastCheck) as $letter) {
         $differenceIndex = $index + (ord($column) - ord($letter));
-        performCheckDiagonaly($board, $letter, $differenceIndex, $index, $piece, $inARow);
+        performCheckDiagonally($board, $letter, $differenceIndex, $index, $piece, $inARow);
         if ($inARow === 4) {
             return true;
         }
@@ -145,7 +155,7 @@ function diagonalCheck($board, $column, $piece)
     $inARow = 0;
     foreach (range($firstCheck, $lastCheck) as $letter) {
         $differenceIndex = $index + ord($letter) - ord($column);
-        performCheckDiagonaly($board, $letter, $differenceIndex, $index, $piece, $inARow);
+        performCheckDiagonally($board, $letter, $differenceIndex, $index, $piece, $inARow);
         if ($inARow === 4) {
             return true;
         }
@@ -153,13 +163,13 @@ function diagonalCheck($board, $column, $piece)
     return false;
 }
 
-function performCheckDiagonaly($board, $letter, $differenceIndex, $index, $piece, &$inARow)
+function performCheckDiagonally($board, $letter, $differenceIndex, $index, $piece, &$inARow)
 {
     if ($differenceIndex >= 0) {
         drawBoard($board, $letter, $differenceIndex);
         if (array_key_exists($differenceIndex, $board[$letter]) && $board[$letter][$differenceIndex] === $piece) {
             ++$inARow;
-        } elseif ($inARow > 0) {
+        } elseif ($inARow > 0 && $inARow < 4) {
             $inARow = 0;
         }
     }
@@ -337,5 +347,31 @@ $test->assertEquals(whoIsWinner([
     "G_Yellow"
 ]),
     "Draw"
+);
+sleep(5);
+$test->assertEquals(whoIsWinner([
+    "F_Yellow",
+    "D_Red",
+    "C_Yellow",
+    "B_Red",
+    "G_Yellow",
+    "E_Red",
+    "B_Yellow",
+    "G_Red",
+    "B_Yellow",
+    "E_Red",
+    "A_Yellow",
+    "F_Red",
+    "D_Yellow",
+    "G_Red",
+    "C_Yellow",
+    "C_Red",
+    "B_Yellow",
+    "C_Red",
+    "C_Yellow",
+    "D_Red",
+    "B_Yellow"
+]),
+    "Yellow"
 );
 sleep(5);

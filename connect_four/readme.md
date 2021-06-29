@@ -23,3 +23,5 @@ The list may contain up to 42 moves and shows the order the players are playing.
 The first player who connects four items of the same color is the winner.
 
 You should return "Yellow", "Red" or "Draw" accordingly.
+
+This will play out the games on the console.
